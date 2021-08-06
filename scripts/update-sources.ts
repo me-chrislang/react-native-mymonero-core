@@ -29,19 +29,19 @@ async function main(): Promise<void> {
 }
 
 async function downloadSources(): Promise<void> {
-  getZip(
-    'boost_1_63_0.zip',
-    'https://dl.bintray.com/boostorg/release/1.63.0/source/boost_1_63_0.zip'
-  )
+  // getZip(
+  //   'boost_1_63_0.zip',
+  //   'https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.zip/download'
+  // )
   getRepo(
     'monero-core-custom',
-    'https://github.com/mymonero/monero-core-custom.git',
-    '936afd97467375511032d6a4eef6e76c982148dd'
+    'https://github.com/Beldex-Coin/beldex-core-custom.git',
+    'master'
   )
   getRepo(
     'mymonero-core-cpp',
-    'https://github.com/ndorf/mymonero-core-cpp.git',
-    '15b6d0cb67f1e580fe2ab4324139af9c313c1c91'
+    'https://github.com/Beldex-Coin/beldex-core-cpp.git',
+    'master'
   )
   await copyFiles('src/', 'tmp/', [
     'mymonero-wrapper/mymonero-methods.cpp',
@@ -180,6 +180,7 @@ async function generateAndroidBuild() {
     ...includePaths.map(path => `include_directories("${path}")`),
     `add_library(mymonero-jni SHARED ${sourceList})`
   ]
+  console.log('cmake print', cmakeLines)
   await disklet.setText(src + 'CMakeLists.txt', cmakeLines.join('\n'))
 }
 
@@ -245,14 +246,14 @@ async function generateIosLibrary(): Promise<void> {
     if (!existsSync(working)) mkdirSync(working)
 
     // Find platform tools:
-    const xcrun = ['xcrun', '--sdk', iosPlatforms[arch]]
-    const ar = quietExec([...xcrun, '--find', 'ar'])
-    const cc = quietExec([...xcrun, '--find', 'clang'])
-    const cxx = quietExec([...xcrun, '--find', 'clang++'])
-    const sdkFlags = [
-      `-arch ${arch}`,
-      `-isysroot ${quietExec([...xcrun, '--show-sdk-path'])}`
-    ]
+    // const xcrun = ['xcrun', '--sdk', iosPlatforms[arch]]
+    // const ar = quietExec([...xcrun, '--find', 'ar'])
+    // const cc = quietExec([...xcrun, '--find', 'clang'])
+    // const cxx = quietExec([...xcrun, '--find', 'clang++'])
+    // const sdkFlags = [
+    //   `-arch ${arch}`,
+    //   `-isysroot ${quietExec([...xcrun, '--show-sdk-path'])}`
+    // ]
 
     // Compile sources:
     const objects: string[] = []
@@ -267,31 +268,31 @@ async function generateIosLibrary(): Promise<void> {
       objects.push(object)
 
       const useCxx = /\.cpp$|\.cc$/.test(source)
-      quietExec([
-        useCxx ? cxx : cc,
-        '-c',
-        ...(useCxx ? cxxflags : cflags),
-        ...sdkFlags,
-        `-o ${object}`,
-        join(tmp, source)
-      ])
+      // quietExec([
+      //   useCxx ? cxx : cc,
+      //   '-c',
+      //   ...(useCxx ? cxxflags : cflags),
+      //   ...sdkFlags,
+      //   `-o ${object}`,
+      //   join(tmp, source)
+      // ])
     }
 
     // Generate a static library:
     const library = join(working, `libmymonero-core.a`)
     if (existsSync(library)) unlinkSync(library)
     libraries.push(library)
-    quietExec([ar, 'rcs', library, ...objects])
+    // quietExec([ar, 'rcs', library, ...objects])
   }
 
   // Merge the platforms into a fat library:
-  quietExec([
-    'lipo',
-    '-create',
-    '-output',
-    join(__dirname, '../ios/Libraries/libmymonero-core.a'),
-    ...libraries
-  ])
+  // quietExec([
+  //   'lipo',
+  //   '-create',
+  //   '-output',
+  //   join(__dirname, '../ios/Libraries/libmymonero-core.a'),
+  //   ...libraries
+  // ])
 }
 
 /**
@@ -299,7 +300,7 @@ async function generateIosLibrary(): Promise<void> {
  */
 function getRepo(name: string, uri: string, hash: string): void {
   const path = join(tmp, name)
-
+  console.log('path is', path)
   // Clone (if needed):
   if (!existsSync(path)) {
     console.log(`Cloning ${name}...`)
@@ -308,7 +309,7 @@ function getRepo(name: string, uri: string, hash: string): void {
 
   // Checkout:
   console.log(`Checking out ${name}...`)
-  execSync(`git checkout -f ${hash}`, {
+  execSync(`git checkout ${hash}`, {
     cwd: path,
     stdio: 'inherit',
     encoding: 'utf8'
@@ -338,6 +339,7 @@ async function copyFiles(
   to: string,
   files: string[]
 ): Promise<void> {
+  console.log('files...', files)
   for (const file of files) {
     await disklet.setText(to + file, await disklet.getText(from + file))
   }
