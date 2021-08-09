@@ -29,7 +29,8 @@
     "package.json",
     "react-native-mymonero-core.podspec",
     "README.md",
-    "src"
+    "src",
+    "scripts/"
   ],
   "scripts": {
     "format-java": "./android/format-java.sh",
