@@ -29,10 +29,10 @@ async function main(): Promise<void> {
 }
 
 async function downloadSources(): Promise<void> {
-  // getZip(
-  //   'boost_1_63_0.zip',
-  //   'https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.zip/download'
-  // )
+  getZip(
+    'boost_1_63_0.zip',
+    'https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.zip/download'
+  )
   getRepo(
     'monero-core-custom',
     'https://github.com/Beldex-Coin/beldex-core-custom.git',
