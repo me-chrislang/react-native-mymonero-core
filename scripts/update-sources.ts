@@ -13,14 +13,13 @@
 // This library only uses about 1500 of the 13000 boost headers files,
 // so we ask the C compiler which headers are actually useful.
 
-import { execSync } from 'child_process'
+import { execSync, exec } from 'child_process'
 import { existsSync, mkdirSync, unlinkSync } from 'fs'
 import { join } from 'path'
 import { makeNodeDisklet } from 'disklet'
 
 const disklet = makeNodeDisklet(join(__dirname, '../'))
-const tmp = join(__dirname, '../tmp')
-
+const tmp = join(__dirname, '../tmp')  
 async function main(): Promise<void> {
   if (!existsSync(tmp)) mkdirSync(tmp)
   await downloadSources()
@@ -169,7 +168,12 @@ async function generateAndroidBuild() {
     }
   }
   await copyFiles('tmp/', src, [...sources, ...headers, ...extraFiles])
-
+  await exec("cp -r ./boost/libcpp.hpp ./android/src/main/cpp/boost_1_63_0/boost/config/stdlib/ && cp -r ./boost/ops_cas_based.hpp ./android/src/main/cpp/boost_1_63_0/boost/atomic/detail/ && cp -r ./boost/ops_gcc_x86_dcas.hpp ./android/src/main/cpp/boost_1_63_0/boost/atomic/detail/", (error, stdout, stderr) => {
+    if (error) {
+      console.log(`error: ${error.message}`);
+      return;
+    }
+  });
   // Assemble our CMakeLists.txt:
   const sourceList = ['jni.cpp', ...sources].join(' ')
   const cmakeLines = [

@@ -11,7 +11,7 @@ import java.util.List;
 public class BeldexPackage implements ReactPackage {
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-    return Arrays.<NativeModule>asList(new app.edge.reactnative.mymonerocorecore.BeldexModule(reactContext));
+    return Arrays.<NativeModule>asList(new app.edge.reactnative.mymonerocore.BeldexModule(reactContext));
   }
 
   @Override

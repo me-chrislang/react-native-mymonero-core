@@ -1,6 +1,6 @@
 {
   "name": "native-beldex-core",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Native bindings for test",
   "homepage": "https://github.com/me-chrislang",
   "repository": {
@@ -30,7 +30,8 @@
     "react-native-mymonero-core.podspec",
     "README.md",
     "src",
-    "scripts/"
+    "scripts/",
+    "boost/"
   ],
   "scripts": {
     "format-java": "./android/format-java.sh",
