@@ -1,4 +1,4 @@
-package app.edge.reactnative.mymonerocore;
+package app.edge.reactnative.beldexcore;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -22,7 +22,7 @@ public class BeldexModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void callMyBeldex(String method, String arguments, Promise promise) {
+  public void callBeldex(String method, String arguments, Promise promise) {
     try {
       promise.resolve(callBeldexJNI(method, arguments));
     } catch (Exception e) {

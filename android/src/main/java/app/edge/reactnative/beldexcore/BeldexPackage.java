@@ -1,4 +1,4 @@
-package app.edge.reactnative.mymonerocore;
+package app.edge.reactnative.beldexcore;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
@@ -11,7 +11,7 @@ import java.util.List;
 public class BeldexPackage implements ReactPackage {
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-    return Arrays.<NativeModule>asList(new app.edge.reactnative.mymonerocore.BeldexModule(reactContext));
+    return Arrays.<NativeModule>asList(new app.edge.reactnative.beldexcore.BeldexModule(reactContext));
   }
 
   @Override
