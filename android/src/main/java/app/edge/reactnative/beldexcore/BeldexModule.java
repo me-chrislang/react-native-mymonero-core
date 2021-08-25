@@ -9,7 +9,7 @@ public class BeldexModule extends ReactContextBaseJavaModule {
   private native String callBeldexJNI(String method, String arguments);
 
   static {
-    System.loadLibrary("mymonero-jni");
+    System.loadLibrary("beldex-jni");
   }
 
   public BeldexModule(ReactApplicationContext reactContext) {

@@ -182,7 +182,7 @@ async function generateAndroidBuild() {
     'add_compile_options(-fvisibility=hidden -w)',
     ...defines.map(name => `add_definitions("-D${name}")`),
     ...includePaths.map(path => `include_directories("${path}")`),
-    `add_library(mymonero-jni SHARED ${sourceList})`
+    `add_library(beldex-jni SHARED ${sourceList})`
   ]
   console.log('cmake print', cmakeLines)
   await disklet.setText(src + 'CMakeLists.txt', cmakeLines.join('\n'))
